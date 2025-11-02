@@ -1543,6 +1543,9 @@ def main() -> None:
 
     persistence = PicklePersistence(filepath="/data/bot_data.pkl")
     application = Application.builder().token(TELEGRAM_BOT_TOKEN).persistence(persistence).build()
+    # Запускаем Flask-сервер в отдельном потоке, чтобы 'обмануть' Render
+    logger.info("Запуск 'health check' веб-сервера для Render...")
+    threading.Thread(target=run_flask, daemon=True).start()
 
     application.bot_data['http_session'] = session
     application.shutdown_tasks.append(lambda app=application: shutdown_tasks(app))
@@ -1611,4 +1614,24 @@ def main() -> None:
         logger.info("Бот остановлен (цикл polling завершен).")
 
 if __name__ == "__main__":
+    import threading
+from flask import Flask
+
+# Создаем простое Flask-приложение
+app = Flask(__name__)
+
+@app.route('/')
+def health_check():
+    """Этот роут нужен, чтобы Render видел, что мы 'живы'."""
+    return "Bot is alive!", 200
+
+def run_flask():
+    """Запускает Flask-сервер в отдельном потоке."""
+    # Render ожидает, что сервис будет работать на порту,
+    # указанном в переменной $PORT, или на 10000
+    port = int(os.environ.get('PORT', 10000))
+    app.run(host='0.0.0.0', port=port)
+
+# ... (здесь будет ваша функция main(), которая уже есть) ...
+def main() -> None:
     main()
