@@ -1,0 +1,37 @@
+# .gitignore
+# Секретные данные
+.env
+*.pkl
+*.pkl.*
+
+# Логи
+*.log
+bot_output.log
+
+# Временные файлы
+*.mp3
+*.ogg
+*.wav
+*.tmp
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+venv/
+env/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+Other files/
