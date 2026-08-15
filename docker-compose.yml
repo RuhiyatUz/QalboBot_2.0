@@ -1,0 +1,15 @@
+services:
+  bot:
+    build: .
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      LOG_FILE: /app/data/bot.log
+      PICKLE_PATH: /app/data/bot_data.pkl
+      OPS_DB_PATH: /app/data/ops.sqlite3
+    volumes:
+      - ./faiss_index:/app/faiss_index
+      - ./data:/app/data
+    ports:
+      - "8080:8080"
+      - "8090:8090"

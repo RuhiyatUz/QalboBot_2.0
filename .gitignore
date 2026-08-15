@@ -4,9 +4,12 @@
 *.pkl
 *.pkl.*
 
-# Логи
+# Логи и операционные данные
 *.log
 bot_output.log
+ops.sqlite3
+data/
+faiss_index/
 
 # Временные файлы
 *.mp3
